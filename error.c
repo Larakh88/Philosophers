@@ -1,26 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 11:08:06 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/25 16:11:59 by lel-khou         ###   ########.fr       */
+/*   Created: 2022/11/23 13:49:19 by lel-khou          #+#    #+#             */
+/*   Updated: 2022/11/25 13:30:57 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+static int	ft_arg_numb(int argc, char **argv)
 {
-	t_main	main;
+	int	i;
+	int	j;
 
-	if (ft_error(argc, argv) == 1)
+	i = 1;
+	while (i < argc)
+	{
+		j = 0;
+		while (argv[i][j] != 0)
+		{
+			if (ft_isdigit(argv[i][j]) == 0)
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	ft_error(int argc, char **argv)
+{
+	if (argc != 5 && argc != 6)
+	{
+		printf("Wrong Number of Arguments\n");
 		return (1);
-	if (ft_init(&main, argv, argc) == 1)
+	}
+	if (ft_arg_numb(argc, argv) == 1)
+	{
+		printf("Arguments are not all numbers\n");
 		return (1);
-	gettimeofday(&main.start, NULL);
-	create_threads(&main);
+	}
 	return (0);
 }

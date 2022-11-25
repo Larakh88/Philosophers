@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 15:19:07 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/18 15:19:52 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:55:30 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,11 @@ int	ft_atoi(const char *str)
 		i++;
 	}	
 	return (res * sign);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }

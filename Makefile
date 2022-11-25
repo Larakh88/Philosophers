@@ -6,13 +6,13 @@
 #    By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 11:07:38 by lel-khou          #+#    #+#              #
-#    Updated: 2022/11/18 17:41:46 by lel-khou         ###   ########.fr        #
+#    Updated: 2022/11/25 13:29:51 by lel-khou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-CFLAGS = -g -Wall -Werror -Wextra
+CFLAGS = -g -pthread -Wall -Werror -Wextra
 
 HEADER = philo.h
 
@@ -20,7 +20,7 @@ RM = rm -f
 
 NAME = philo
 
-SRC = main.c routine.c utils.c
+SRC = main.c routine.c utils.c error.c init.c
 
 OBJS = $(SRC:.c=.o)
 
