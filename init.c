@@ -6,11 +6,32 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:28:31 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/29 16:11:32 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:51:49 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	create_threads(t_main *main)
+{
+	int		i;
+
+	i = 0;
+	while (i < main->n_philo)
+	{
+		if (pthread_create(&main->philo[i].t, NULL, &routine, \
+		&main->philo[i]) != 0)
+			printf("Failed to create thread\n");
+		i++;
+	}
+	i = 0;
+	while (i < main->n_philo)
+	{
+		if (pthread_join(main->philo[i].t, NULL) != 0)
+			printf("Failed to join threads\n");
+		i++;
+	}
+}
 
 static int	mutex_init(t_main *main)
 {
@@ -25,6 +46,8 @@ static int	mutex_init(t_main *main)
 		i++;
 	}
 	if (pthread_mutex_init(&(main->print), NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&(main->death), NULL) != 0)
 		return (1);
 	return (0);
 }
@@ -42,8 +65,7 @@ static void	philo_init(t_main *main)
 		main->philo[j].l_fork = (j + 1);
 		if (j == main->n_philo - 1)
 			main->philo[j].l_fork = 0;
-		main->philo[j].last_eat = main->start.tv_sec * 1000 + \
-		main->start.tv_usec / 1000;
+		main->philo[j].last_eat = main->t_start;
 		main->philo[j].main = main;
 		j++;
 	}
@@ -55,6 +77,7 @@ int	ft_init(t_main *main, char **argv, int argc)
 	main->t_die = ft_atoi(argv[2]);
 	main->t_eat = ft_atoi(argv[3]);
 	main->t_sleep = ft_atoi(argv[4]);
+	main->t_think = main->t_die - main->t_eat - main->t_sleep;
 	if (argc == 6)
 		main->nb_eat = ft_atoi(argv[5]);
 	main->philo = malloc(sizeof(t_philo) * main->n_philo);

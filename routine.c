@@ -6,31 +6,39 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:41:20 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/29 16:51:27 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:11:54 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	create_threads(t_main *main)
+int	ft_death(t_philo *philo)
 {
-	int		i;
+	long long	diff;
 
-	i = 0;
-	while (i < main->n_philo)
+	pthread_mutex_lock(&philo->main->death);
+	gettimeofday(&philo->main->end, NULL);
+	philo->main->t_current = ft_time(philo->main->end);
+	diff = philo->main->t_current - philo->main->t_start;
+	pthread_mutex_unlock(&philo->main->death);
+	if (diff >= philo->main->t_die)
 	{
-		if (pthread_create(&main->philo[i].t, NULL, &routine, \
-		&main->philo[i]) != 0)
-			printf("Failed to create thread\n");
-		i++;
+		ft_print(philo, "died");
+		pthread_detach(philo->t);
+		return (1);
 	}
-	i = 0;
-	while (i < main->n_philo)
-	{
-		if (pthread_join(main->philo[i].t, NULL) != 0)
-			printf("Failed to join threads\n");
-		i++;
-	}
+	return (0);
+}
+
+static void	ft_sleep(t_philo *philo)
+{
+	ft_print(philo, "is sleeping");
+	usleep(philo->main->t_sleep * 1000);
+}
+
+static void	ft_think(t_philo *philo)
+{
+	ft_print(philo, "is thinking");
 }
 
 void	*routine(void *arg)
@@ -39,14 +47,20 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->i % 2 == 0)
-		usleep(200);
-	pthread_mutex_lock(&philo->main->forks[philo->l_fork]);
-	ft_print(philo, "has taken fork");
-	pthread_mutex_lock(&philo->main->forks[philo->r_fork]);
-	ft_print(philo, "has taken fork");
-	ft_print(philo, "is eating");
-	usleep(philo->main->t_eat * 1000);
-	pthread_mutex_unlock(&philo->main->forks[philo->l_fork]);
-	pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
-	return (NULL);
+		usleep(philo->main->t_eat * 500);
+	while (ft_death(philo) != 1)
+	{
+		pthread_mutex_lock(&philo->main->forks[philo->l_fork]);
+		ft_print(philo, "has taken a fork");
+		pthread_mutex_lock(&philo->main->forks[philo->r_fork]);
+		ft_print(philo, "has taken a fork");
+		ft_print(philo, "is eating");
+		usleep(philo->main->t_eat * 1000);
+		philo->eat++;
+		pthread_mutex_unlock(&philo->main->forks[philo->l_fork]);
+		pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
+		ft_sleep(philo);
+		ft_think(philo);
+	}
+	exit (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:08:52 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/29 16:48:35 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:11:56 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ typedef struct s_main
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
+	int				t_think;
 	int				nb_eat;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
+	pthread_mutex_t	death;
 	long long		t_start;
 	long long		t_current;
 	struct timeval	start;
