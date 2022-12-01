@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   printing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 11:08:06 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/29 16:50:25 by lel-khou         ###   ########.fr       */
+/*   Created: 2022/11/29 13:41:15 by lel-khou          #+#    #+#             */
+/*   Updated: 2022/11/29 16:47:08 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	ft_print(t_philo *philo, char *str)
 {
-	t_main	main;
-
-	if (ft_error(argc, argv) == 1)
-		return (1);
-	if (ft_init(&main, argv, argc) == 1)
-		return (1);
-	gettimeofday(&main.start, NULL);
-	main.t_start = ft_time(main.start);
-	create_threads(&main);
-	return (0);
+	gettimeofday(&philo->main->end, NULL);
+	pthread_mutex_lock(&philo->main->print);
+	printf("%ld		philo %d %s %d\n", (ft_time(philo->main->end) - \
+	ft_time(philo->main->start)), philo->i + 1, str, philo->l_fork);
+	pthread_mutex_unlock(&philo->main->print);
 }

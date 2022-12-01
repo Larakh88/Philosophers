@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:28:31 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/25 14:32:33 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:11:32 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	mutex_init(t_main *main)
 			return (1);
 		i++;
 	}
+	if (pthread_mutex_init(&(main->print), NULL) != 0)
+		return (1);
 	return (0);
 }
 
@@ -40,6 +42,8 @@ static void	philo_init(t_main *main)
 		main->philo[j].l_fork = (j + 1);
 		if (j == main->n_philo - 1)
 			main->philo[j].l_fork = 0;
+		main->philo[j].last_eat = main->start.tv_sec * 1000 + \
+		main->start.tv_usec / 1000;
 		main->philo[j].main = main;
 		j++;
 	}
