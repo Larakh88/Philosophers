@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:08:52 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/01 13:11:56 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:15:16 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_philo
 	pthread_t		t;
 	int				r_fork;
 	int				l_fork;
-	long long		last_eat;
+	long			last_eat;
 	struct s_main	*main;
 }	t_philo;
 
@@ -43,8 +43,6 @@ typedef struct s_main
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
-	long long		t_start;
-	long long		t_current;
 	struct timeval	start;
 	struct timeval	end;
 }	t_main;
@@ -57,5 +55,6 @@ void	ft_print(t_philo *philo, char *str);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 long	ft_time(struct timeval time);
+void	ft_usleep(useconds_t time);
 
 #endif

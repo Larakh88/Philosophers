@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 15:19:07 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/29 16:48:44 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:15:28 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,16 @@ int	ft_isdigit(int c)
 long	ft_time(struct timeval time)
 {
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void	ft_usleep(useconds_t time)
+{
+	useconds_t	i;
+
+	i = 0;
+	while (i < time)
+	{
+		usleep(1);
+		i++;
+	}
 }

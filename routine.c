@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:41:20 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/01 13:11:54 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:17:40 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int	ft_death(t_philo *philo)
 
 	pthread_mutex_lock(&philo->main->death);
 	gettimeofday(&philo->main->end, NULL);
-	philo->main->t_current = ft_time(philo->main->end);
-	diff = philo->main->t_current - philo->main->t_start;
+	diff = ft_time(philo->main->end) - ft_time(philo->main->start);
 	pthread_mutex_unlock(&philo->main->death);
 	if (diff >= philo->main->t_die)
 	{
@@ -55,8 +54,11 @@ void	*routine(void *arg)
 		pthread_mutex_lock(&philo->main->forks[philo->r_fork]);
 		ft_print(philo, "has taken a fork");
 		ft_print(philo, "is eating");
-		usleep(philo->main->t_eat * 1000);
 		philo->eat++;
+		gettimeofday(&philo->main->end, NULL);
+		philo->last_eat = ft_time(philo->main->end);
+		usleep(philo->main->t_eat * 1000);
+		//check_eat(philo);
 		pthread_mutex_unlock(&philo->main->forks[philo->l_fork]);
 		pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
 		ft_sleep(philo);

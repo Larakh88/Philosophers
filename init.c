@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:28:31 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/01 12:51:49 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:15:30 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	philo_init(t_main *main)
 		main->philo[j].l_fork = (j + 1);
 		if (j == main->n_philo - 1)
 			main->philo[j].l_fork = 0;
-		main->philo[j].last_eat = main->t_start;
+		main->philo[j].last_eat = ft_time(main->start);
 		main->philo[j].main = main;
 		j++;
 	}
