@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 15:19:07 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/01 16:15:28 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/07 21:01:21 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,29 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-long	ft_time(struct timeval time)
+long	ft_time(void)
 {
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	struct timeval	time;
+	long			t;
+
+	gettimeofday(&time, NULL);
+	t = time.tv_sec * 1000 + time.tv_usec / 1000;
+	return (t);
 }
 
-void	ft_usleep(useconds_t time)
+void	ft_usleep(int time, t_philo *philo)
 {
-	useconds_t	i;
+	long	t;
 
-	i = 0;
-	while (i < time)
-	{
-		usleep(1);
-		i++;
-	}
+	t = ft_time();
+	while (ft_time() - t < time && ft_death(philo) == 0)
+		usleep(20);
+}
+
+void	ft_print(t_philo *philo, char *str)
+{
+	pthread_mutex_lock(&philo->main->print);
+	printf("%ld		philo %d %s\n", ft_time() - philo->main->start, \
+	philo->i + 1, str);
+	pthread_mutex_unlock(&philo->main->print);
 }

@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:28:31 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/01 16:15:30 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/07 21:01:15 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	create_threads(t_main *main)
 	{
 		if (pthread_create(&main->philo[i].t, NULL, &routine, \
 		&main->philo[i]) != 0)
+		{
 			printf("Failed to create thread\n");
+			return ;
+		}
 		i++;
 	}
 	i = 0;
@@ -49,6 +52,8 @@ static int	mutex_init(t_main *main)
 		return (1);
 	if (pthread_mutex_init(&(main->death), NULL) != 0)
 		return (1);
+	if (pthread_mutex_init(&(main->eat), NULL) != 0)
+		return (1);
 	return (0);
 }
 
@@ -65,7 +70,7 @@ static void	philo_init(t_main *main)
 		main->philo[j].l_fork = (j + 1);
 		if (j == main->n_philo - 1)
 			main->philo[j].l_fork = 0;
-		main->philo[j].last_eat = ft_time(main->start);
+		main->philo[j].last_eat = ft_time();
 		main->philo[j].main = main;
 		j++;
 	}
@@ -77,9 +82,12 @@ int	ft_init(t_main *main, char **argv, int argc)
 	main->t_die = ft_atoi(argv[2]);
 	main->t_eat = ft_atoi(argv[3]);
 	main->t_sleep = ft_atoi(argv[4]);
-	main->t_think = main->t_die - main->t_eat - main->t_sleep;
+	main->philo_died = 0;
+	main->all_eat = 0;
 	if (argc == 6)
 		main->nb_eat = ft_atoi(argv[5]);
+	else
+		main->nb_eat = -1;
 	main->philo = malloc(sizeof(t_philo) * main->n_philo);
 	if (!main->philo)
 		return (1);

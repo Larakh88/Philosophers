@@ -6,7 +6,7 @@
 #    By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 11:07:38 by lel-khou          #+#    #+#              #
-#    Updated: 2022/11/29 13:41:51 by lel-khou         ###   ########.fr        #
+#    Updated: 2022/12/07 16:45:10 by lel-khou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RM = rm -f
 
 NAME = philo
 
-SRC = main.c routine.c utils.c error.c init.c printing.c
+SRC = main.c routine.c utils.c error.c init.c
 
 OBJS = $(SRC:.c=.o)
 

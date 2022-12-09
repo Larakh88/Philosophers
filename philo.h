@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:08:52 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/01 16:15:16 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/07 21:01:17 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,26 @@ typedef struct s_main
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
-	int				t_think;
 	int				nb_eat;
+	int				all_eat;
+	long			start;
+	int				philo_died;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
-	struct timeval	start;
-	struct timeval	end;
+	pthread_mutex_t	eat;
 }	t_main;
 
 int		ft_error(int argc, char **argv);
 int		ft_init(t_main *main, char **argv, int argc);
 void	create_threads(t_main *main);
 void	*routine(void *arg);
-void	ft_print(t_philo *philo, char *str);
+int		ft_death(t_philo *philo);
+void	ft_exit(t_main *main);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
-long	ft_time(struct timeval time);
-void	ft_usleep(useconds_t time);
+long	ft_time(void);
+void	ft_usleep(int time, t_philo *philo);
+void	ft_print(t_philo *philo, char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:49:19 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/11/25 13:30:57 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/07 16:43:53 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int	ft_error(int argc, char **argv)
 	if (ft_arg_numb(argc, argv) == 1)
 	{
 		printf("Arguments are not all numbers\n");
+		return (1);
+	}
+	if (argc == 6 && ft_atoi(argv[5]) == 0)
+	{
+		printf("Nb of eats cannot be zero\n");
 		return (1);
 	}
 	return (0);
