@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 15:19:07 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/14 13:44:05 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:41:01 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ void	ft_usleep(int time, t_philo *philo)
 	t = ft_time();
 	while (ft_time() - t < time && philo->main->philo_died == 0 && \
 	philo->main->all_eat < philo->main->n_philo)
+	{
+		ft_death(philo);
 		usleep(20);
+	}
 }
 
 void	ft_print(t_philo *philo, char *str)
