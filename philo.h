@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:08:52 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/07 21:01:17 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:09:24 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_main
 	int				all_eat;
 	long			start;
 	int				philo_died;
+	int				*fork_value;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
@@ -50,7 +51,7 @@ typedef struct s_main
 
 int		ft_error(int argc, char **argv);
 int		ft_init(t_main *main, char **argv, int argc);
-void	create_threads(t_main *main);
+int		create_threads(t_main *main);
 void	*routine(void *arg);
 int		ft_death(t_philo *philo);
 void	ft_exit(t_main *main);
