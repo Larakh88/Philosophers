@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 15:19:07 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/14 14:41:01 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/14 22:21:50 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,38 @@ void	ft_usleep(int time, t_philo *philo)
 	long	t;
 
 	t = ft_time();
+	pthread_mutex_lock(&philo->main->death);
+	pthread_mutex_lock(&philo->main->eat);
 	while (ft_time() - t < time && philo->main->philo_died == 0 && \
 	philo->main->all_eat < philo->main->n_philo)
 	{
+		pthread_mutex_unlock(&philo->main->death);
+		pthread_mutex_unlock(&philo->main->eat);
 		ft_death(philo);
 		usleep(20);
+		pthread_mutex_lock(&philo->main->death);
+		pthread_mutex_lock(&philo->main->eat);
 	}
+	pthread_mutex_unlock(&philo->main->death);
+	pthread_mutex_unlock(&philo->main->eat);
 }
 
 void	ft_print(t_philo *philo, char *str)
 {
-	pthread_mutex_lock(&philo->main->print);
+	pthread_mutex_lock(&philo->main->death);
+	pthread_mutex_lock(&philo->main->eat);
 	if (philo->main->philo_died == 0 && \
 	philo->main->all_eat < philo->main->n_philo)
 	{
+		pthread_mutex_unlock(&philo->main->death);
+		pthread_mutex_unlock(&philo->main->eat);
+		pthread_mutex_lock(&philo->main->print);
 		printf("%ld		philo %d %s\n", ft_time() - philo->main->start, \
 		philo->i + 1, str);
+		pthread_mutex_unlock(&philo->main->print);
+		pthread_mutex_lock(&philo->main->death);
+		pthread_mutex_lock(&philo->main->eat);
 	}
-	pthread_mutex_unlock(&philo->main->print);
+	pthread_mutex_unlock(&philo->main->death);
+	pthread_mutex_unlock(&philo->main->eat);
 }

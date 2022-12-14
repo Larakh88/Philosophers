@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:08:52 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/14 13:12:58 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/14 22:29:06 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,8 @@ int		ft_isdigit(int c);
 long	ft_time(void);
 void	ft_usleep(int time, t_philo *philo);
 void	ft_print(t_philo *philo, char *str);
+void	ft_unlock_mutex(t_philo *philo);
+void	ft_lock_mutex(t_philo *philo);
+void	start_condition(t_philo *philo);
 
 #endif
