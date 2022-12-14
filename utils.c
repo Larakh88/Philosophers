@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 15:19:07 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/13 16:09:16 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/14 13:44:05 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,19 @@ void	ft_usleep(int time, t_philo *philo)
 	long	t;
 
 	t = ft_time();
-	while (ft_time() - t < time && philo->main->philo_died == 0)
+	while (ft_time() - t < time && philo->main->philo_died == 0 && \
+	philo->main->all_eat < philo->main->n_philo)
 		usleep(20);
 }
 
 void	ft_print(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->main->print);
-	printf("%ld		philo %d %s\n", ft_time() - philo->main->start, \
-	philo->i + 1, str);
+	if (philo->main->philo_died == 0 && \
+	philo->main->all_eat < philo->main->n_philo)
+	{
+		printf("%ld		philo %d %s\n", ft_time() - philo->main->start, \
+		philo->i + 1, str);
+	}
 	pthread_mutex_unlock(&philo->main->print);
 }
