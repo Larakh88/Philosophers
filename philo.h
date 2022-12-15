@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:08:52 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/14 22:29:06 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:20:41 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	ft_usleep(int time, t_philo *philo);
 void	ft_print(t_philo *philo, char *str);
 void	ft_unlock_mutex(t_philo *philo);
 void	ft_lock_mutex(t_philo *philo);
-void	start_condition(t_philo *philo);
+void	ft_eat(t_philo *philo);
+void	ft_sleep_think(t_philo *philo);
+int		ft_check_eat(t_philo *philo);
 
 #endif

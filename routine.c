@@ -6,7 +6,7 @@
 /*   By: lel-khou <lel-khou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:41:20 by lel-khou          #+#    #+#             */
-/*   Updated: 2022/12/14 22:31:33 by lel-khou         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:22:31 by lel-khou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_death(t_philo *philo)
 	return (0);
 }
 
-static int	ft_check_eat(t_philo *philo)
+int	ft_check_eat(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->main->eat);
 	if (philo->eat == philo->main->nb_eat)
@@ -55,37 +55,26 @@ static int	ft_check_eat(t_philo *philo)
 	return (0);
 }
 
-static void	ft_sleep_think(t_philo *philo)
+static int	ft_life(t_philo *philo)
 {
-	ft_print(philo, "is sleeping");
-	ft_usleep(philo->main->t_sleep, philo);
-	ft_print(philo, "is thinking");
-}
-
-static void	ft_eat(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->main->forks[philo->l_fork]);
-	philo->main->fork_value[philo->l_fork] = 1;
-	ft_print(philo, "has taken a fork");
-	pthread_mutex_unlock(&philo->main->forks[philo->l_fork]);
+	if (ft_death(philo) == 1)
+	{
+		ft_lock_mutex(philo);
+		return (1);
+	}
 	pthread_mutex_lock(&philo->main->forks[philo->r_fork]);
-	philo->main->fork_value[philo->r_fork] = 1;
-	ft_print(philo, "has taken a fork");
-	pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
-	ft_print(philo, "is eating");
-	philo->last_eat = ft_time();
-	philo->eat++;
-	pthread_mutex_lock(&philo->main->eat);
-	ft_check_eat(philo);
-	pthread_mutex_unlock(&philo->main->eat);
-	ft_usleep(philo->main->t_eat, philo);
-	pthread_mutex_lock(&philo->main->forks[philo->r_fork]);
-	philo->main->fork_value[philo->r_fork] = 0;
-	pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
-	pthread_mutex_lock(&philo->main->forks[philo->l_fork]);
-	philo->main->fork_value[philo->l_fork] = 0;
-	pthread_mutex_unlock(&philo->main->forks[philo->l_fork]);
-	ft_sleep_think(philo);
+	if (philo->main->fork_value[philo->r_fork] == 0)
+	{
+		pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
+		ft_eat(philo);
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
+		usleep(100);
+	}
+	ft_lock_mutex(philo);
+	return (0);
 }
 
 void	*routine(void *arg)
@@ -93,28 +82,17 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	start_condition(philo);
+	if (philo->i % 2 == 0)
+		ft_usleep(philo->main->t_eat * 0.5, philo);
+	if (philo->i == philo->main->n_philo - 1 && philo->main->n_philo % 2 != 0)
+		usleep(100);
+	ft_lock_mutex(philo);
 	while (philo->main->philo_died == 0 && \
 	philo->main->all_eat < philo->main->n_philo)
 	{
 		ft_unlock_mutex(philo);
-		if (ft_death(philo) == 1)
-		{
-			ft_lock_mutex(philo);
+		if (ft_life(philo) == 1)
 			break ;
-		}
-		pthread_mutex_lock(&philo->main->forks[philo->r_fork]);
-		if (philo->main->fork_value[philo->r_fork] == 0)
-		{
-			pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
-			ft_eat(philo);
-		}
-		else
-		{
-			pthread_mutex_unlock(&philo->main->forks[philo->r_fork]);
-			usleep(100);
-		}
-		ft_lock_mutex(philo);
 	}
 	ft_unlock_mutex(philo);
 	return (NULL);
