@@ -29,8 +29,7 @@ However, in this **`Philosophers`** project at School 42, an additional state of
 
 ```./philo [number_of_philos] [time_to_die] [time_to_eat] [time_to_sleep] [optional: number_of_times_each_philosopher_must_eat]```
 
-
-![Alt text](philo.gif)
+![philo](https://github.com/Larakh88/Philosophers/assets/88907380/c3f3fecf-4018-4de0-9605-69ffeb367ec8)
 
 # Conclusion
 This project presents a challenging exercise in concurrent programming and synchronization. I gained valuable experience in managing threads and mutexes to ensure the correct behavior of the philosophers' simulation without encountering deadlock or starvation.
