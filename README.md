@@ -1,6 +1,4 @@
 # Philosophers
-
-## Introduction:
 The Dining Philosophers Problem is a classic synchronization challenge that illustrates the complexities of resource allocation and concurrency control. In this scenario, a group of philosophers sits around a circular table, where each philosopher alternates between thinking and eating. A large bowl of spaghetti is placed at the center of the table, with forks distributed evenly between each philosopher. To eat, a philosopher must hold both the fork on their left and right sides.
 
 However, in this **`Philosophers`** project at School 42, an additional state of sleeping is introduced, adding complexity to the simulation. Philosophers alternate between eating, thinking, and sleeping, with strict rules governing their actions. Furthermore, an optional parameter allows specifying the number of times each philosopher must eat before the program ends. If this parameter is provided, all philosophers must meet this eating threshold to conclude the simulation; otherwise, they face the risk of starvation.
